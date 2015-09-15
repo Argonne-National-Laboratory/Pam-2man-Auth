@@ -1,0 +1,142 @@
+Two Man (2 Person) Authentication for PAM (Pluggable Authentication Module).
+
+I. Background
+=============
+Our focus on the ongoing, ever-changing threats and attacks from outside our 
+networks should not distract us from protecting against threats from 
+within. Especially the low-likelihood, but high-consequence, insider threat 
+posed by privileged, trusted users. The recent National Security Agency (NSA) 
+information leak incidents have prompted immediate focus on the topic of 
+internal security. In these events, an employee with privileged access disclosed 
+confidential data to the public without permission, prompting government and 
+non-government organizations to review their internal security controls and 
+reassess their effectiveness in protecting against insider threats.
+
+Despite the risk of insider attacks, most security products do not offer 
+protection against these attacks. Moreover, identifying the source of internal 
+adversarial activities is a challenging task. How can an organization protect 
+confidential information from malicious insider attacks? In response to 
+questions posed by reporters from several news outlets, the director of the NSA,
+K. Alexander, announced that a “ two-man rule” would be instituted on NSA 
+systems to prevent a recurrence of similar events. The announcement triggered 
+questions about the feasibility and effectiveness of implementing a two-man 
+rule.
+
+This research and development study aims to answer those two questions: 
+
+1)	Is a two-man rule feasible in a production environment? 
+
+2)	How can a two-man rule be enforced?
+
+We discuss the development and implementation of an enforceable two-man rule 
+for authenticating privileged users, using a Pluggable Authentication Module 
+(PAM) plugin, in a Linux environment, demonstrating the feasibility and 
+effectiveness of requiring joint agreement between two trusted users before 
+gaining access privileged actions.
+
+II.Defining a Two-man Rule
+========================
+Two-man rule (also known as two-person rule, two-man authentication, or 
+two-person authentication) is a security control that prohibits independent, 
+single-person access to critical data, applications, and computer systems.  The 
+rule requires two authorized individuals who are in constant view of each other 
+to concurrently login to the system before access can be granted. This approach 
+ensures that accidental or intentional malicious activities cannot be performed 
+without the consent of the second person. A literature search returned no 
+examples of designs or implementations of two-man authentication. The work 
+presented in this paper bridges the gap between concept and implementation by 
+demonstrating the feasibility and effectiveness of an enforceable two-man rule 
+in Linux-based systems.
+
+III.Two-man Authentication Proof-of-concept
+===========================================
+This proof-of-concept demonstration addresses the idea of requiring a second set
+of credentials to access confidential data and/or change critical configurations
+on secure systems. To accomplish this, we developed a plugin using the PAM 
+system, the system used for user authentication and security on Linux systems. 
+PAM can authenticate users in a variety of ways, but most typically it uses 
+passwords.
+
+PAM allows applications to employ different user-authentication methods using a 
+stacked plugin architecture. This means that plugins, such as the two-man 
+authentication plugin developed in this study, do not require knowledge of the 
+underlying authentication type of a specific application. In other words, such a
+plugin could be used with password authentication as easily as with biometric 
+authentication, as long as the other components of the PAM stack and the 
+application itself supports a given plugin.
+
+For our proof of concept, the plugin was added to a Linux system for use with 
+sudo. Sudo is a console program used to assume temporary administrative 
+privileges that are required to execute a program, access or modify a file, or 
+for other specific functions. We used sudo in our proof of concept because it is
+the most commonly used method for obtaining elevated privileges to execute 
+commands in a Unix/Linux environment, making it ideal for enforcing two-man 
+authentication.
+
+Sudo, by default, uses PAM as its method for authenticating a user’s system 
+access credentials and then uses its own internal method to evaluate whether or 
+not a user is allowed elevated privileges for the given command. However, a PAM 
+plugin cannot decide whether to permit the sudo-user to perform actions; the 
+permission-to-execute decision must be performed separately. To decide whether 
+to grant permission, our implementation used a secondary authentication method 
+for our second user, namely, a system “group.”  This secondary “group” provides 
+additional security because it enforces a hierarchy of permissions.
+
+
+This implemented design permits both granular control over execution permissions
+and hierarchical, supervisory control to ensure management (authorizer) 
+oversight of the activities performed by the administrator. This fine-grained 
+(per system function) and oversight control is defined by group memberships. 
+Specific authorization to perform functions is granted via sudo's internal 
+authentication scheme. Managerial authorization is granted through the 
+“sudo-authorizer” group membership. A person could be in the administrator 
+group, the authorization group, or both. Membership in one group does not imply 
+or grant membership in the other group:
+
+1)	A managing administrator can have authorization to perform functions (sudoer) and authorize others to perform actions (sudo-authorizer); 
+
+2)	A security manager can have no authorization to perform actions (non sudoer) but have permission to authorize administrative actions (sudo-authorizer); and 
+
+3)	A system administrator can perform functions (sudoer) but not authorize others to perform actions (non sudo-authorizer).
+
+IV.Discussion and Conclusion
+============================
+The two-man authentication plugin developed was designed for use with sudo, a 
+primary Linux/Unix-based tool for granting permission to privileged operations. 
+Permission to use other programs could also be controlled using the plugin.
+
+This proof-of-concept demonstration was successful: two non-root user logins and
+corresponding passwords were required before permission to execute was granted. 
+The requirement for not allowing root users prevents a single user from 
+subverting the check for the second authorizing user.  The plugin was also 
+successfully tested using PAM’s fingerprint authentication module for 
+password-less biometric authentication.
+
+Additional security is obtained by creating a supervisory role for the second 
+person, who not only witnesses, but also authorizes, the actions of the primary 
+person (e.g., the system administrator). This limits the opportunity for 
+collusion between two regular administrators and requires that any administrator 
+obtain the permission of a supervisor, who authorizes and witnesses their 
+actions.
+
+References
+==========
+References
+
+[1]Gellman, B.; A. Blake; G. Miller. 2013. “Edward Snowden comes forward as source of NSA leaks.” The Washington Post [modified 2013; cited July 31, 2013]. Available from: http://www.washingtonpost.com/
+
+politics/intelligence-leaders-push-back-on-leakers-media/2013
+
+/06/09/fff80160-d122-11e2-a73e-826d299ff459_story.html.
+
+[2]Ragan, S. “Preventing a Snowden-Style Security Breach.” 2013. Slashdot [modified 2013; cited August 20, 2013]. Available from: http://slashdot.org/topic/bi/preventing-a-snowden-style-security-breach. 
+
+[3]Drew, C.; S. Sengupta. 2013. “N.S.A. Leak Puts Focus on System Administrators.” The New York Times [modified 2013; cited August 20, 2013]. Available from: http://www.nytimes.com/2013/06/24/
+
+technology/nsa-leak-puts-focus-on-system-administrators.html?
+
+pagewanted=all&_r=1&.
+
+[4]Brower, H.H.; S.W. Lester; M.A. Korsgaard; B.R. Dineen. 2009. “A Closer Look at Trust between Managers and Subordinates: Understanding the Effects of Both Trusting and Being Trusted on Subordinate Outcome.” Journal of Management. March 1, 2009; 35(2):327–347.
+
+[5]Lackey, E.D. “Using Pluggable Authentication Modules (PAM).” Red Hat Enterprise Linux 6. Raleigh: Red Hat; 2011.

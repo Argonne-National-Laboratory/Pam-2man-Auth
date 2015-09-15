@@ -1,0 +1,45 @@
+About
+=====
+The Pam 2man Authentication plugin was coded as a laboratory experiment after
+the Snowden leaks to evaluate the effectiveness and feasability of implementing
+a 2 person rule for computer systems.  Its target application space is 
+*nix applications that use PAM (Pluggable Authentication Modules) for 
+authentication.  For full details see the included README file.
+
+Installation 
+============
+Make will handle most things, including putting libraries in the right places
+and creating an "acl" for the sudo_authorizers group.  More on that in a minute.
+
+To build and install:
+
+$ make
+$ sudo make install
+
+By default anyone in the system group called "sudo_authorizers" will be able
+to approve calls to sudo.  This plugin does not change the authorization 
+rules for sudo, only requires that user B approve user A's actions.  If user 
+A does not have permissions to execute the action he/she is attempting 
+(according to /etc/sudoers), user Bs approval will not grant that.
+
+User B does not need the same /etc/sudoers permission to approve User A's 
+actions, he only needs to be part of the sudo_authorizers group (or whichever
+group is specified in /etc/2man/acl/sudo.acl).
+
+Configuring sudo for 2man auth
+==============================
+
+add:
+auth required pam_2man.so group
+
+to /etc/pam.d/sudo 
+
+(should work the same for any other pam capable service)
+
+Uninstall
+=========
+sudo make uninstall will do its best to clean up everything it installed.  It
+will not touch any user's groups, etc that were created for actual use, nor
+will it remove the requirement for pam_2man.so if you've added it to /etc/pam.d
+make sure you remove it or you will lose sudo access (and have to use su and/or
+root to fix).
