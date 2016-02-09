@@ -2,9 +2,9 @@ Two Man (2 Person) Authentication for PAM (Pluggable Authentication Module).
 
 I. Background
 =============
-Our focus on the ongoing, ever-changing threats and attacks from outside our 
+Our focus on the ongoing, ever-changing threats and attacks from outside our i
 networks should not distract us from protecting against threats from 
-within. Especially the low-likelihood, but high-consequence, insider threat 
+within—especially the low-likelihood, but high-consequence, insider threat 
 posed by privileged, trusted users. The recent National Security Agency (NSA) 
 information leak incidents have prompted immediate focus on the topic of 
 internal security. In these events, an employee with privileged access disclosed 
@@ -34,7 +34,7 @@ for authenticating privileged users, using a Pluggable Authentication Module
 effectiveness of requiring joint agreement between two trusted users before 
 gaining access privileged actions.
 
-II.Defining a Two-man Rule
+II.Defining Two-man Rule
 ========================
 Two-man rule (also known as two-person rule, two-man authentication, or 
 two-person authentication) is a security control that prohibits independent, 

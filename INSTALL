@@ -8,6 +8,8 @@ authentication.  For full details see the included README file.
 
 Installation 
 ============
+Requires PAM devel files.  On Debian/Ubuntu derivatives, this is the libpam0g-dev package.
+
 Make will handle most things, including putting libraries in the right places
 and creating an "acl" for the sudo_authorizers group.  More on that in a minute.
 
