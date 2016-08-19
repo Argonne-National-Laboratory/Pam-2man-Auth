@@ -30,7 +30,7 @@ clean:
 install:
 	$(MKDIR_P) $(sysconfdir)/2man/acl
 	$(INSTALL) -m 0755 -d $(libdir)
-	$(INSTALL) -m 0644 $(SHARED_OBJECT) $(libdir)
+	$(INSTALL) -m 0755 $(SHARED_OBJECT) $(libdir)
 	$(INSTALL) -m 0644 etc/2man/2man_group $(sysconfdir)/2man
 	$(INSTALL) -m 0644 etc/2man/acl/sudo.acl $(sysconfdir)/2man/acl
         
