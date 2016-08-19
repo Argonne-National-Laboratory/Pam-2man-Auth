@@ -72,3 +72,11 @@ PAM_EXTERN int pam_sm_authenticate(
     return PAM_SUCCESS;
   } 
 }
+
+#define UNUSED __attribute__ ((unused))
+PAM_EXTERN int
+pam_sm_setcred(pam_handle_t *pamh UNUSED, int flags UNUSED,
+               int argc UNUSED, const char **argv UNUSED)
+{
+        return PAM_IGNORE;
+}
