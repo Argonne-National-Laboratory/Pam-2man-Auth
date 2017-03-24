@@ -3,7 +3,6 @@ sysconfdir=/etc
 
 INSTALL=/usr/bin/install
 CC=gcc
-LD=/usr/bin/ld
 RM=/bin/rm
 CP=/bin/cp
 MKDIR_P=/bin/mkdir -p
@@ -12,14 +11,14 @@ RMDIR=/bin/rmdir
 LIBRARIES=-lpam -lpam_misc
 
 CFLAGS=-fPIC -O2 -c -g -Wall -Wformat-security -fno-strict-aliasing
-LDFLAGS=-x --shared
+LDFLAGS=-fPIC -shared
 
 OBJECTS=2man.o
 SHARED_OBJECT=pam_2man.so
 SOURCES=2man.c
 
 $(SHARED_OBJECT): $(OBJECTS)
-	$(LD) $(LDFLAGS) $(LIBRARIES) -o $(SHARED_OBJECT) $(OBJECTS)
+        $(CC) $(LDFLAGS) $^ $(LIBRARIES) -o $@
 
 $(OBJECTS): $(SOURCES)
 	$(CC) $(CFLAGS) $(LIBRARIES) $(SOURCES)
