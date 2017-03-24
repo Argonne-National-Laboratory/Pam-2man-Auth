@@ -27,12 +27,11 @@ clean:
 	$(RM) -f $(OBJECTS) $(SHARED_OBJECT)
 
 install:
-	$(MKDIR_P) $(sysconfdir)/2man/acl
-	$(INSTALL) -m 0755 -d $(libdir)
-	$(INSTALL) -m 0755 $(SHARED_OBJECT) $(libdir)
-	$(INSTALL) -m 0644 etc/2man/2man_group $(sysconfdir)/2man
-	$(INSTALL) -m 0644 etc/2man/acl/sudo.acl $(sysconfdir)/2man/acl
-        
+	$(MKDIR_P) $(DESTDIR)/$(sysconfdir)/2man/acl
+	$(INSTALL) -m 0755 -d $(DESTDIR)/$(libdir)
+	$(INSTALL) -m 0644 $(SHARED_OBJECT) $(DESTDIR)/$(libdir)
+	$(INSTALL) -m 0644 etc/2man/2man_group $(DESTDIR)/$(sysconfdir)/2man
+	$(INSTALL) -m 0644 etc/2man/acl/sudo.acl $(DESTDIR)/$(sysconfdir)/2man/acl
 
 
 # use at your own risk
