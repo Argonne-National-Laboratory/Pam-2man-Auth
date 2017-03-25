@@ -18,7 +18,7 @@ SHARED_OBJECT=pam_2man.so
 SOURCES=2man.c
 
 $(SHARED_OBJECT): $(OBJECTS)
-        $(CC) $(LDFLAGS) $^ $(LIBRARIES) -o $@
+	$(CC) $(LDFLAGS) $^ $(LIBRARIES) -o $@
 
 $(OBJECTS): $(SOURCES)
 	$(CC) $(CFLAGS) $(LIBRARIES) $(SOURCES)
