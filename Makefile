@@ -18,7 +18,7 @@ SHARED_OBJECT=pam_2man.so
 SOURCES=2man.c
 
 $(SHARED_OBJECT): $(OBJECTS)
-        $(CC) $(LDFLAGS) $^ $(LIBRARIES) -o $@
+	$(CC) $(LDFLAGS) $^ $(LIBRARIES) -o $@
 
 $(OBJECTS): $(SOURCES)
 	$(CC) $(CFLAGS) $(LIBRARIES) $(SOURCES)
@@ -30,7 +30,7 @@ install:
 	$(MKDIR_P) $(DESTDIR)/$(sysconfdir)/2man/acl
 	$(INSTALL) -m 0755 -d $(DESTDIR)/$(libdir)
 	$(INSTALL) -m 0644 $(SHARED_OBJECT) $(DESTDIR)/$(libdir)
-	$(INSTALL) -m 0644 etc/2man/2man_group $(DESTDIR)/$(sysconfdir)/2man
+	$(INSTALL) -m 0644 etc/2man/2man_group $(DESTDIR)/$(sysconfdir)/pam.d
 	$(INSTALL) -m 0644 etc/2man/acl/sudo.acl $(DESTDIR)/$(sysconfdir)/2man/acl
 
 
