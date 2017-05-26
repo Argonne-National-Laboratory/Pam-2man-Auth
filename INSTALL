@@ -18,8 +18,13 @@ Requires PAM devel files.  On Debian/Ubuntu derivatives, this is the
 libpam0g-dev package.  On Redhat-based distros (CentOS, Fedora, etc), its
 pam-devel.
 
-Make install will handle most things, including putting libraries in the right places
-and creating an "acl" for the sudo_authorizers group.  More on that in a minute.
+Make install will handle most things, including putting libraries in the right
+places and creating an "acl" for the sudo_authorizers group.  More on that in
+a minute.
+
+BEFORE RUNNING `sudo make install` make sure you add a user to approve, add
+a group called "sudo_authorizers" and add your authorizer to the newly created
+group.  If you do not do this, you may lose your ability to sudo.
 
 To build and install:
 
