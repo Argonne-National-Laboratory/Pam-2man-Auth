@@ -56,9 +56,10 @@ install:
 	$(MKDIR_P) $(DESTDIR)/$(sysconfdir)/2man/acl
 	$(INSTALL) -m 0755 -d $(DESTDIR)/$(libdir)
 	$(INSTALL) -m 0644 $(SHARED_OBJECT) /$(libdir)
-	$(INSTALL) -m 0644 $(SRCDIR)/2man/2man_group $(sysconfdir)/pam.d
+	$(INSTALL) -m 0644 $(SRCDIR)/pam.d/2man_group $(sysconfdir)/pam.d
 	$(INSTALL) -m 0644 $(SRCDIR)/2man/acl/sudo.acl $(sysconfdir)/2man/acl
         ifeq ($(OS_RPM), true)
+          $(CP) $(sysconfdir)/pam.d/sudo $(sysconfdir)/pam.d/sudo.bak
 	  $(INSTALL) -m 0644 $(SRCDIR)/pam.d/sudo $(sysconfdir)/pam.d
         endif
 
@@ -68,5 +69,5 @@ uninstall:
 	$(RM) -f $(PAM_LIB_DIR)/$(SHARED_OBJECT)
 	$(RM) -f $(sysconfdir)/2man/acl/sudo.acl
 	$(RMDIR) $(sysconfdir)/2man/acl
-	$(RM) -f $(sysconfdir)/2man/2man_group
+	$(RM) -f $(sysconfdir)/pam.d/2man_group
 	$(RMDIR) $(sysconfdir)/2man
