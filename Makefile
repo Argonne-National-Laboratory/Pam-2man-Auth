@@ -59,7 +59,7 @@ install:
 	$(INSTALL) -m 0644 $(SRCDIR)/2man/2man_group $(sysconfdir)/pam.d
 	$(INSTALL) -m 0644 $(SRCDIR)/2man/acl/sudo.acl $(sysconfdir)/2man/acl
         ifeq ($(OS_RPM), true)
-	  $(INSTALL) -m 0644 $(SRCDIR)/pam.d/sudo $(sysconfigdir)/pam.d
+	  $(INSTALL) -m 0644 $(SRCDIR)/pam.d/sudo $(sysconfdir)/pam.d
         endif
 
 
