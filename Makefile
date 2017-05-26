@@ -28,7 +28,7 @@ RM=/bin/rm
 CP=/bin/cp
 MKDIR_P=/bin/mkdir -p
 RMDIR=/bin/rmdir
-ifeq ($(OS_RPM), true))
+ifeq ($(OS_RPM), true)
   SRCDIR=rpm/etc
 else
   SRCDIR=etc
