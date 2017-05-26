@@ -1,7 +1,0 @@
-#%PAM-1.0
-
-@include common-auth
-@include common-account
-@include common-session-noninteractive
-
-auth required pam_listfile.so file=/etc/2man/acl/sudo.acl item=group sense=allow onerr=fail

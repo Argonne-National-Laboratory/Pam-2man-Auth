@@ -58,10 +58,10 @@ install:
 	$(INSTALL) -m 0644 $(SHARED_OBJECT) /$(libdir)
 	$(INSTALL) -m 0644 $(SRCDIR)/pam.d/2man_group $(sysconfdir)/pam.d
 	$(INSTALL) -m 0644 $(SRCDIR)/2man/acl/sudo.acl $(sysconfdir)/2man/acl
-        ifeq ($(OS_RPM), true)
+	ifeq ($(OS_RPM), true)
 	  $(CP) $(sysconfdir)/pam.d/sudo $(sysconfdir)/pam.d/sudo.bak
 	  $(INSTALL) -m 0644 $(SRCDIR)/pam.d/sudo $(sysconfdir)/pam.d
-        endif
+	endif
 
 
 # use at your own risk
@@ -71,3 +71,7 @@ uninstall:
 	$(RMDIR) $(sysconfdir)/2man/acl
 	$(RM) -f $(sysconfdir)/pam.d/2man_group
 	$(RMDIR) $(sysconfdir)/2man
+	ifeq ($(OS_RPM), true)
+	  $(RM) -f $(sysconfdir)/pam.d/sudo
+	  $(CP) $(sysconfdir)/pamd.d/sudo.bak $(sysconfdir)/pam.d/sudo
+	endif
