@@ -6,11 +6,19 @@ a 2 person rule for computer systems.  Its target application space is
 *nix applications that use PAM (Pluggable Authentication Modules) for 
 authentication.  For full details see the included README file.
 
+This code has not recieved a proper security audit, nor do its authors consider
+it to be an adequate solution for a robust security environment.  It was developed
+as a proof of concept only.  Long story short: if you don't trust your system admins,
+this won't protect you.  However, we will do our best to fix bugs and support anyone
+who is using it to the best of our abilities / schedules permitting.
+
 Installation 
 ============
-Requires PAM devel files.  On Debian/Ubuntu derivatives, this is the libpam0g-dev package.
+Requires PAM devel files.  On Debian/Ubuntu derivatives, this is the
+libpam0g-dev package.  On Redhat-based distros (CentOS, Fedora, etc), its
+pam-devel.
 
-Make will handle most things, including putting libraries in the right places
+Make install will handle most things, including putting libraries in the right places
 and creating an "acl" for the sudo_authorizers group.  More on that in a minute.
 
 To build and install:
@@ -31,7 +39,13 @@ group is specified in /etc/2man/acl/sudo.acl).
 Configuring sudo for 2man auth
 ==============================
 
-add:
+CentOS/RHEL/Fedora users... if you implement any custom functionality in 
+/etc/pam.d/system-auth-ac, this will be bypassed after make install.  If 
+you're not sure what this means, it probably doesn't affect you.  If you're 
+ultra paranoid, please look at the config in rpm/etc/pam.d/sudo and make any
+suggestions you think are missing.
+
+Non-Redhat derived distros must add:
 auth required pam_2man.so group
 
 to /etc/pam.d/sudo 
